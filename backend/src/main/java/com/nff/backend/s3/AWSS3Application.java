@@ -19,6 +19,9 @@ import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
 
+/**
+ * Class to initialize AWS S3 bucket. (Contains example codes for different operations)
+ */
 public class AWSS3Application {
 
     private static final AWSCredentials credentials;
