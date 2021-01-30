@@ -8,20 +8,33 @@ public class Baby {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer babyId;
-    public Date birth;
+    private Integer id;
+
+    @ManyToOne
+    private User user;
+
+    private Date birth;
+
     private Integer gender;
+
     private String language;
+
     private String avatar;
-    private Integer parentId;
 
-
-    public Integer getBabyId() {
-        return babyId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setId(Integer babyId) {
-        this.babyId = babyId;
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Date getBirth() {
@@ -55,13 +68,4 @@ public class Baby {
     public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
-
-    public Integer getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(Integer parentId) {
-        this.parentId = parentId;
-    }
-
 }

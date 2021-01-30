@@ -1,7 +1,5 @@
 package com.nff.backend.entity;
 
-import org.hibernate.annotations.Table;
-
 import javax.persistence.*;
 import java.util.Date;
 
@@ -9,27 +7,25 @@ import java.util.Date;
 public class Post {
 
     @Id
-    @GeneratedValue
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
     @ManyToOne
     private User user;
 
-    @Column(name = "post_date")
     private Date postDate;
 
-    @Column
     private String content;
 
     private String title;
 
     private String picUrl;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -37,7 +33,7 @@ public class Post {
         return user;
     }
 
-    public void setUserId(User user) {
+    public void setUser(User user) {
         this.user = user;
     }
 
