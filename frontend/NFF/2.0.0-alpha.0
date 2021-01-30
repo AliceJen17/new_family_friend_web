@@ -1,0 +1,4 @@
++ react-native-screens@2.17.1
+added 1 package from 1 contributor and audited 1056 packages in 9.325s
+found 9 low severity vulnerabilities
+  run `npm audit fix` to fix them, or `npm audit` for details
