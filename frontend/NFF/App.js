@@ -12,7 +12,7 @@ class App extends Component {
   render(){
     return (
          <View>
-          <Welcome/>
+          <Login/>
         </View> 
 /*        <View styles={styles.container}>
         <NavigationContainer>
