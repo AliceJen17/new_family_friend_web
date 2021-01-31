@@ -3,18 +3,23 @@ package com.nff.backend.service;
 import com.nff.backend.entity.User;
 import com.nff.backend.repository.UserRepository;
 import com.nff.backend.security.TokenUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 @Service
 public class UserService {
-    @Resource
+
     private UserRepository userRepository;
+
+    @Autowired
+    public UserService(UserRepository userRepository){
+        this.userRepository = userRepository;
+    }
 
     @Transactional
     public ResponseEntity<String> register(User queryUser){

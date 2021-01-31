@@ -1,10 +1,10 @@
 package com.nff.backend.controller;
 
 import com.nff.backend.service.AmazonS3ClientService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,7 +12,7 @@ import java.util.Map;
 @RequestMapping("/files")
 public class FileHandlerControllerExample {
 
-    @Autowired
+    @Resource
     private AmazonS3ClientService amazonS3ClientService;
 
     @PostMapping

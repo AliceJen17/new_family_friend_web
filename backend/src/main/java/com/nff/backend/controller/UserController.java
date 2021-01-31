@@ -2,7 +2,6 @@ package com.nff.backend.controller;
 
 import com.nff.backend.entity.User;
 import com.nff.backend.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,12 +10,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.Resource;
 
 
 @Controller // This means that this class is a Controller
 @RequestMapping(path="/user") // This means URL's start with /user (after Application path)
 public class UserController {
-    @Autowired
+
+    @Resource
     private UserService userService;
 
     @PostMapping(path="/register") // Map ONLY POST Requests
