@@ -4,14 +4,17 @@ import {
     StyleSheet, 
     Text, 
     View, 
-    TouchableOpacity
+    TouchableOpacity,
  } from 'react-native';
-//import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Button,} from 'native-base';
+import {Actions} from 'react-native-router-flux'
+import styles from '../styles/styles.js';
+
 class Login extends Component{
     render(){
         return (
-                <View style={styles.container}>
-                    <Text style={ {fontSize: 25, color:'#4C5355', marginTop: 50 }}>Welcome Back to NFF!</Text>
+                <View style={[styles.container]}>
+                    <Text style={ [styles.primaryText, { marginTop: 30 }]}>Welcome Back to NFF!</Text>
 
                     <TextInput 
                     style={styles.inputBox}
@@ -25,27 +28,17 @@ class Login extends Component{
                     placeholderTextColor = 'ddd'
                     keyboardType = 'visible-password'
                     /> 
+                    
+                    <Button style={[styles.primaryButton, {width: 340}, {marginTop : 60}]}>
+                        <Text style={{textAlign:'center', fontSize:18, color: '#fff' }}
+                        >Login</Text> 
+                    </Button>
+                    <Text style={{textAlign:'center', fontSize:18, color: '#0026ca' }}>Don't have an account yet? </Text> 
+                    <Button onPress={()=>Actions.signup()} style={[styles.primaryButton, {width: 340}]}>
+                        <Text style={{textAlign:'center', fontSize:18, color: '#fff' }}
+                        >Sign up</Text> 
+                    </Button>
 
-                    <View style={ { flexDirection: 'row', margin: 20, paddingVertical: 50}}>
-                        <TouchableOpacity
-                            //onPress={ () => this.props.navigation.navigate('Login')}
-                        style={ {backgroundColor: '#67ADEE', padding: 10, width: 275, height: 45,  borderRadius: 30,
-                        marginHorizontal: 15}}
-                        >
-                        <Text style={{textAlign:'center', fontSize:18, color: '#fff' }}>Login</Text>  
-                        </TouchableOpacity>
-                    </View>
-
-                    <View style={{ alignItems: 'center',}}>
-                        <Text style={{textAlign:'center', fontSize:18, color: '#0026ca' }}>Don't have an account yet? </Text>  
-                        <TouchableOpacity
-                            //onPress={ () => this.props.navigation.navigate('Login')}
-                        style={ {backgroundColor: '#67ADEE', padding: 10, width: 150, height: 45,  borderRadius: 30,
-                        marginHorizontal: 15 ,marginTop: 15}}
-                        >
-                        <Text style={{textAlign:'center', fontSize:18, color: '#fff' }}>Signup</Text>  
-                        </TouchableOpacity>
-                    </View>
                 </View> 
         ) 
     }
@@ -53,7 +46,7 @@ class Login extends Component{
 
 export default Login;
 
-const styles = StyleSheet.create({
+/* const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: '#fff',
@@ -75,4 +68,4 @@ const styles = StyleSheet.create({
         fontSize:16,
         color:'#ddd',
     },
-  });
+  }); */
