@@ -9,7 +9,7 @@ import {
 
 import { Button,} from 'native-base';
 import styles from '../styles/styles.js';
-import {Actions} from 'react-native-router-flux'
+
 
 class SignUp extends Component{
     render(){

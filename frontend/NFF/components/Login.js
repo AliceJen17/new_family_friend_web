@@ -1,16 +1,75 @@
 import React , {Component}from 'react';
 import { 
     TextInput, 
-    StyleSheet, 
     Text, 
     View, 
-    TouchableOpacity,
+    AsyncStorage,
+    KeyboardAvoidingView
  } from 'react-native';
 import { Button,} from 'native-base';
-import {Actions} from 'react-native-router-flux'
+import {Actions} from 'react-native-router-flux';
 import styles from '../styles/styles.js';
+import {API_URL, TOKEN_KEY} from "../constant";
 
 class Login extends Component{
+    constructor(props) {
+        super(props);
+        this.state = {
+            email: "",
+            password: ""
+        }
+    }
+
+
+    async loginHandler(){
+        return fetch(`${API_URL}/user/login`,{
+            method: 'POST',
+/*             headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            }, */
+/*             body: JSON.stringify({
+                email : this.state.email,
+                password : this.state.password,
+            }), */
+        })
+            .then((response) => {
+                console.log(response.status);
+                if (response.status == "200") {
+                    return response.headers;
+                } else {
+                    Toast.show({
+                        text: "Invalid Username or Password",
+                        textStyle: {fontSize: 13},
+                        buttonText: "Got it!",
+                        duration: 3000,
+                        position: "top"
+                    })
+                    return null;
+                }
+            })
+            .then((headers) => {
+                if(headers) {
+                    console.log('Success:', headers);
+                    let accessToken = headers.get('authorization').toString();
+                    console.log(accessToken);
+                    //this._onValueChange(accessToken);
+                    return true;
+                }else{
+                    return false;
+                }
+            }).then((status)=>{
+                if(status) {
+                    //Actions.home({page:"mealplan"});
+                    Actions.mainpage();
+                }
+                return status;
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }
+ 
     render(){
         return (
                 <View style={[styles.container]}>
@@ -28,12 +87,17 @@ class Login extends Component{
                     placeholderTextColor = 'ddd'
                     keyboardType = 'visible-password'
                     /> 
-                    
-                    <Button style={[styles.primaryButton, {width: 340}, {marginTop : 60}]}>
+                    <Text style={{ fontSize:18, marginTop : 20, color: '#0026ca' }}>Frogot password ? </Text> 
+                    <Button style={[styles.primaryButton, {width: 340}, {marginTop : 12}]}
+                            onPress={()=>Actions.mainpage()
+                            //onPress={ this.loginHandler.bind(this)
+                            }>
                         <Text style={{textAlign:'center', fontSize:18, color: '#fff' }}
                         >Login</Text> 
                     </Button>
-                    <Text style={{textAlign:'center', fontSize:18, color: '#0026ca' }}>Don't have an account yet? </Text> 
+
+                    <Text style={{textAlign:'center', fontSize:18, color: '#0026ca' }}>Don't have an account yet ? </Text> 
+                    
                     <Button onPress={()=>Actions.signup()} style={[styles.primaryButton, {width: 340}]}>
                         <Text style={{textAlign:'center', fontSize:18, color: '#fff' }}
                         >Sign up</Text> 

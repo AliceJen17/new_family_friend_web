@@ -1,5 +1,11 @@
 import React , {Component}from 'react';
-import { Image,  StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { 
+  Image,  
+  StyleSheet, 
+  Text, 
+  View, 
+  TouchableOpacity 
+} from 'react-native';
 import {Actions} from 'react-native-router-flux'
 
 class Welcome extends Component {
