@@ -24,23 +24,23 @@ import java.io.IOException;
 public class AmazonS3ClientService
 {
     private String awsS3Bucket;
+    private String awsS3URL;
     private AmazonS3 amazonS3;
     private static final Logger logger = LoggerFactory.getLogger(AmazonS3ClientService.class);
 
     @Autowired
-    public AmazonS3ClientService(Region awsRegion, AWSCredentialsProvider awsCredentialsProvider, String awsS3Bucket)
+    public AmazonS3ClientService(Region awsRegion, AWSCredentialsProvider awsCredentialsProvider, String awsS3Bucket, String awsS3URL)
     {
         this.amazonS3 = AmazonS3ClientBuilder.standard()
                 .withCredentials(awsCredentialsProvider)
                 .withRegion(awsRegion.getName()).build();
         this.awsS3Bucket = awsS3Bucket;
+        this.awsS3URL = awsS3URL;
     }
 
     @Async
-    public void uploadFileToS3Bucket(MultipartFile multipartFile, boolean enablePublicReadAccess)
+    public void upload(MultipartFile multipartFile, String fileName, boolean enablePublicReadAccess)
     {
-        String fileName = multipartFile.getOriginalFilename();
-
         try {
             //creating the file in the server (temporarily)
             File file = new File(fileName);
@@ -62,12 +62,16 @@ public class AmazonS3ClientService
     }
 
     @Async
-    public void deleteFileFromS3Bucket(String fileName)
+    public void delete(String fileName)
     {
         try {
             amazonS3.deleteObject(new DeleteObjectRequest(awsS3Bucket, fileName));
         } catch (AmazonServiceException ex) {
             logger.error("error [" + ex.getMessage() + "] occurred while removing [" + fileName + "] ");
         }
+    }
+
+    public String getAwsS3URL() {
+        return awsS3URL;
     }
 }

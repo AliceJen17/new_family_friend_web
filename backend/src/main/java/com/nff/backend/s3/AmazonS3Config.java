@@ -24,6 +24,9 @@ public class AmazonS3Config
     @Value("${aws.s3.bucket}")
     private String awsS3Bucket;
 
+    @Value("${aws.s3.URL}")
+    private String awsS3URL;
+
     @Bean(name = "awsKeyId")
     public String getAWSKeyId() {
         return awsKeyId;
@@ -48,5 +51,10 @@ public class AmazonS3Config
     @Bean(name = "awsS3Bucket")
     public String getAWSS3Bucket() {
         return awsS3Bucket;
+    }
+
+    @Bean(name = "awsS3URL")
+    public String getAWSS3URL() {
+        return awsS3URL;
     }
 }

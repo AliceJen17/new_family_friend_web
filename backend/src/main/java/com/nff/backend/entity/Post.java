@@ -1,7 +1,7 @@
 package com.nff.backend.entity;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Timestamp;
 
 @Entity
 public class Post {
@@ -13,7 +13,7 @@ public class Post {
     @ManyToOne
     private User user;
 
-    private Date postDate;
+    private Timestamp postDate;
 
     private String content;
 
@@ -37,11 +37,11 @@ public class Post {
         this.user = user;
     }
 
-    public Date getPostDate() {
+    public Timestamp getPostDate() {
         return postDate;
     }
 
-    public void setPostDate(Date postDate) {
+    public void setPostDate(Timestamp postDate) {
         this.postDate = postDate;
     }
 

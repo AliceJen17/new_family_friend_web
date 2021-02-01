@@ -1,32 +1,31 @@
 package com.nff.backend.controller;
 
 import com.nff.backend.entity.User;
+import com.nff.backend.response.MyError;
+import com.nff.backend.security.TokenUtil;
+import com.nff.backend.service.AmazonS3ClientService;
 import com.nff.backend.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Resource;
-
-
-@Controller // This means that this class is a Controller
-@RequestMapping(path="/user") // This means URL's start with /user (after Application path)
+@Controller
+@RequestMapping(path="/user")
 public class UserController {
 
-    @Resource
+    @Autowired
     private UserService userService;
 
-    @PostMapping(path="/register") // Map ONLY POST Requests
-    public @ResponseBody
-    ResponseEntity<String> register (@RequestParam String email
-            , @RequestParam String password) {
-        // @ResponseBody means the returned String is the response, not a view name
-        // @RequestParam means it is a parameter from the GET or POST request
+    @Autowired
+    private AmazonS3ClientService amazonS3ClientService;
 
+    @PostMapping(path="/register")
+    public @ResponseBody
+    ResponseEntity<?> register (@RequestParam String email
+            , @RequestParam String password){
         User user = new User();
         user.setEmail(email);
         user.setPassword(password);
@@ -35,14 +34,36 @@ public class UserController {
 
     @PostMapping(path="/login") // Map ONLY POST Requests
     public @ResponseBody
-    ResponseEntity<String> login (@RequestParam String email
+    ResponseEntity<?> login (@RequestParam String email
             , @RequestParam String password) {
-        // @ResponseBody means the returned String is the response, not a view name
-        // @RequestParam means it is a parameter from the GET or POST request
-
         User user = new User();
         user.setEmail(email);
         user.setPassword(password);
         return userService.login(user);
+    }
+
+    @PutMapping(path="/profile")
+    public @ResponseBody
+    ResponseEntity<?> update (@RequestHeader String token, @RequestParam(required = false) String name, @RequestParam(required = false) Integer gender, @RequestParam(required = false) String location, @RequestParam(required = false) String intro, @RequestParam(required = false) MultipartFile pic){
+        User user = new User();
+        try {
+            user.setEmail(TokenUtil.decode(token));
+        } catch (Exception e) {
+            e.printStackTrace();
+            MyError err = new MyError();
+            err.setStatus(401);
+            err.setError(e.getMessage());
+            return new ResponseEntity<>(err, HttpStatus.UNAUTHORIZED);
+        }
+        user.setName(name);
+        user.setGender(gender);
+        user.setLocation(location);
+        user.setIntro(intro);
+        if(pic != null && !pic.isEmpty()){
+            String fileName = user.getEmail() + "_" + pic.getOriginalFilename();
+            this.amazonS3ClientService.upload(pic, fileName, true);
+            user.setAvatar(this.amazonS3ClientService.getAwsS3URL() + fileName);
+        }
+        return userService.update(user);
     }
 }

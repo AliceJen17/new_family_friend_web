@@ -1,7 +1,7 @@
 package com.nff.backend.entity;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Timestamp;
 
 @Entity
 public class Baby {
@@ -13,7 +13,9 @@ public class Baby {
     @ManyToOne
     private User user;
 
-    private Date birth;
+    private String name;
+
+    private Timestamp birth;
 
     private Integer gender;
 
@@ -37,11 +39,19 @@ public class Baby {
         this.user = user;
     }
 
-    public Date getBirth() {
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Timestamp getBirth() {
         return birth;
     }
 
-    public void setBirth(Date birth) {
+    public void setBirth(Timestamp birth) {
         this.birth = birth;
     }
 

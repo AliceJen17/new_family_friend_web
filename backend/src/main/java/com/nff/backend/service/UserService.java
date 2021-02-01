@@ -2,14 +2,13 @@ package com.nff.backend.service;
 
 import com.nff.backend.entity.User;
 import com.nff.backend.repository.UserRepository;
+import com.nff.backend.response.MyError;
 import com.nff.backend.security.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import javax.annotation.Resource;
 
 @Service
 public class UserService {
@@ -21,8 +20,8 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    @Transactional
-    public ResponseEntity<String> register(User queryUser){
+    @Async
+    public ResponseEntity<?> register(User queryUser) {
         User user = userRepository.findUsersByEmail(queryUser.getEmail());
         if(user == null){
             userRepository.save(queryUser);
@@ -30,19 +29,55 @@ public class UserService {
             return new ResponseEntity<>(token, HttpStatus.CREATED);
         }
         else{
-            return new ResponseEntity<>("User exists", HttpStatus.BAD_REQUEST);
+            MyError err = new MyError();
+            err.setStatus(400);
+            err.setError("User exists");
+            return new ResponseEntity<>(err, HttpStatus.BAD_REQUEST);
         }
     }
 
-    @Transactional
-    public ResponseEntity<String> login(User queryUser){
+    @Async
+    public ResponseEntity<?> login(User queryUser){
         User user = userRepository.findUsersByEmail(queryUser.getEmail());
         if(user == null || !user.getPassword().equals(queryUser.getPassword())){
-            return new ResponseEntity<>("No such user", HttpStatus.BAD_REQUEST);
+            MyError err = new MyError();
+            err.setStatus(400);
+            err.setError("No such user");
+            return new ResponseEntity<>(err, HttpStatus.BAD_REQUEST);
         }
         else{
             String token = TokenUtil.getToken(user.getEmail(), user.getPassword());
             return new ResponseEntity<>(token, HttpStatus.OK);
+        }
+    }
+
+    @Async
+    public ResponseEntity<?> update(User queryUser){
+        User user = userRepository.findUsersByEmail(queryUser.getEmail());
+        if(user == null){
+            MyError err = new MyError();
+            err.setStatus(400);
+            err.setError("No such user");
+            return new ResponseEntity<>(err, HttpStatus.BAD_REQUEST);
+        }
+        else{
+            if(queryUser.getName() != null){
+                user.setName(queryUser.getName());
+            }
+            if(queryUser.getGender() != null){
+                user.setGender(queryUser.getGender());
+            }
+            if(queryUser.getLocation() != null){
+                user.setLocation(queryUser.getLocation());
+            }
+            if(queryUser.getIntro() != null){
+                user.setIntro(queryUser.getIntro());
+            }
+            if(queryUser.getAvatar() != null){
+                user.setAvatar(queryUser.getAvatar());
+            }
+            userRepository.save(user);
+            return new ResponseEntity<>("Saved", HttpStatus.OK);
         }
     }
 }
