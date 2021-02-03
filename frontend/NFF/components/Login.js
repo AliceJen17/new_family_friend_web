@@ -4,71 +4,79 @@ import {
     Text, 
     View, 
     AsyncStorage,
-    KeyboardAvoidingView
+    KeyboardAvoidingView,
+    //Toast,
  } from 'react-native';
 import { Button,} from 'native-base';
 import {Actions} from 'react-native-router-flux';
 import styles from '../styles/styles.js';
 import {API_URL, TOKEN_KEY} from "../constant";
+import Toast from 'react-native-toast-message'
+import { isIphoneX } from 'react-native-iphone-x-helper'
 
-class Login extends Component{
+export default class Login extends Component{
+    
     constructor(props) {
         super(props);
         this.state = {
             email: "",
-            password: ""
+            password: "",
         }
     }
 
+/*     componentDidMount(){
+        this._loadInitialState().done();
 
-    async loginHandler(){
-        return fetch(`${API_URL}/user/login`,{
-            method: 'POST',
-/*             headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            }, */
-/*             body: JSON.stringify({
-                email : this.state.email,
-                password : this.state.password,
-            }), */
-        })
-            .then((response) => {
-                console.log(response.status);
-                if (response.status == "200") {
-                    return response.headers;
-                } else {
+    }
+
+    _loadInitialState = async () => {
+
+
+    } */
+
+
+    login = () => {
+        console.log("email is : " + this.state.email);
+        console.log("password is : " +this.state.password);
+       //if(!this.state.email == null && !this.state.password == null){
+            return fetch(`http://100.20.18.178/user/login`,{
+            //return fetch(`${API_URL}/user/login`,{
+                method: 'POST',
+/*                 headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },   */
+                body: JSON.stringify({               
+                    "email":this.state.email,
+                    "password":this.state.password
+                }), 
+            })
+            //.then( (res) => res.json())
+            .then( (response) => {
+                console.log("response Status is:" + response.status);
+                console.log("response  is :" + JSON.stringify(response));
+                if(response.status == "200"){
+                    Actions.mainpage();
+                }
+                else{
+                    console.log('No such user or password!!!   ');
                     Toast.show({
                         text: "Invalid Username or Password",
                         textStyle: {fontSize: 13},
                         buttonText: "Got it!",
                         duration: 3000,
                         position: "top"
-                    })
-                    return null;
+                    }) 
                 }
-            })
-            .then((headers) => {
-                if(headers) {
-                    console.log('Success:', headers);
-                    let accessToken = headers.get('authorization').toString();
-                    console.log(accessToken);
-                    //this._onValueChange(accessToken);
-                    return true;
-                }else{
-                    return false;
-                }
-            }).then((status)=>{
-                if(status) {
-                    //Actions.home({page:"mealplan"});
-                    Actions.mainpage();
-                }
-                return status;
             })
             .catch((error) => {
-                console.error('Error:', error);
-            });
+                console.error('Error', error);
+            })
+            .done();
+       // }   
     }
+
+
  
     render(){
         return (
@@ -77,26 +85,36 @@ class Login extends Component{
 
                     <TextInput 
                     style={styles.inputBox}
+                    onChangeText={ (email) => this.setState({email})}
+                    //value = {this.state.email}
                     placeholder="Email"
                     placeholderTextColor = 'ddd'
                     keyboardType = 'email-address'
+                    autoCompleteType = 'email'
+                    autoCapitalize = 'none'
                     /> 
                     <TextInput 
                     style={styles.inputBox}
+                    onChangeText={ (password) => this.setState({password})}
+                    //value = {this.state.password}
                     placeholder="Password"
                     placeholderTextColor = 'ddd'
-                    keyboardType = 'visible-password'
+                    //keyboardType = 'number-pad'
+                    autoCompleteType  = 'password'
+                    autoCapitalize = 'none'
+                    //secureTextEntry={true}
                     /> 
-                    <Text style={{ fontSize:18, marginTop : 20, color: '#0026ca' }}>Frogot password ? </Text> 
+                    <Text style={{ fontSize:18, marginTop : 20, color: '#0026ca' }}>Forgot password? </Text> 
                     <Button style={[styles.primaryButton, {width: 340}, {marginTop : 12}]}
-                            onPress={()=>Actions.mainpage()
-                            //onPress={ this.loginHandler.bind(this)
-                            }>
+                            onPress={this.login}
+                            //onPress={()=>Actions.mainpage()}
+                            //onPress={ this.loginHandler.bind(this)}
+                            >
                         <Text style={{textAlign:'center', fontSize:18, color: '#fff' }}
                         >Login</Text> 
                     </Button>
 
-                    <Text style={{textAlign:'center', fontSize:18, color: '#0026ca' }}>Don't have an account yet ? </Text> 
+                    <Text style={{textAlign:'center', fontSize:18, color: '#0026ca' }}>Don't have an account yet? </Text> 
                     
                     <Button onPress={()=>Actions.signup()} style={[styles.primaryButton, {width: 340}]}>
                         <Text style={{textAlign:'center', fontSize:18, color: '#fff' }}
@@ -108,7 +126,7 @@ class Login extends Component{
     }
 }
 
-export default Login;
+//export default Login;
 
 /* const styles = StyleSheet.create({
     container: {

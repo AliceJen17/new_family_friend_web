@@ -14,7 +14,7 @@ class MainPage extends Component{
     render(){
         return (
                 <View style={[styles.container]}>
-                    <Text style={ [styles.primaryText, { marginTop: 30 }]}>Main Page!</Text>
+                    <Text style={ [styles.primaryText, { marginTop: 30 }]}>Main Page!!!!!</Text>
 
                 </View> 
         ) 

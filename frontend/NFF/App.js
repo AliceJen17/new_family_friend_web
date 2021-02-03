@@ -21,9 +21,10 @@ class App extends Component {
         <Router>
             <Scene>
               <Scene key ="welcome" component={Welcome} hideNavBar={true} title="Welcome"/>
-              <Scene key ="login" component={Login} title="Login"/>
+              <Scene key ="login" component={Login} hideNavBar={true} title="Login"/>
               <Scene key ="signup" component={SignUp} title="SignUp"/>
               <Scene key ="mainpage" component={MainPage} title="MainPage"/>
+              
             </Scene>
         </Router>
        )
