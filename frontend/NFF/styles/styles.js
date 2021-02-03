@@ -38,4 +38,5 @@ module.exports = StyleSheet.create({
         fontSize:16,
         color:'#ddd',
     },
+    
 });

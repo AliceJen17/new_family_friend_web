@@ -9,6 +9,7 @@ import {
 
 import { Button,} from 'native-base';
 import styles from '../styles/styles.js';
+import {Actions} from 'react-native-router-flux';
 
 
 class SignUp extends Component{
@@ -35,7 +36,7 @@ class SignUp extends Component{
                     placeholderTextColor = 'ddd'
                     keyboardType = 'visible-password'
                     /> 
-                    <Button style={[styles.primaryButton, {width: 340}, {marginTop : 60}]}>
+                    <Button onPress={()=>Actions.signup2()} style={[styles.primaryButton, {width: 340}, {marginTop : 60}]}>
                         <Text style={{textAlign:'center', fontSize:18, color: '#fff' }}
                         >Next</Text> 
                     </Button>

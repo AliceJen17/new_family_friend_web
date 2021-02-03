@@ -10,22 +10,31 @@
   "dependencies": {
     "@react-native-community/async-storage": "^1.12.1",
     "@react-native-community/masked-view": "^0.1.10",
+    "@react-native-picker/picker": "1.9.2",
     "@react-navigation/native": "^5.9.2",
     "@react-navigation/stack": "^5.14.2",
-    "expo": "~40.0.0",
+    "beeshell": "^2.0.11",
+    "expo": "^40.0.1",
     "expo-status-bar": "~1.0.3",
     "native-base": "^2.15.2",
     "react": "16.13.1",
+    "react-country-region-selector": "^3.0.2",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-40.0.1.tar.gz",
     "react-native-activity-indicator": "^0.0.4",
+    "react-native-datepicker": "^1.7.2",
+    "react-native-dropdown-picker": "^3.8.0",
     "react-native-gesture-handler": "^1.8.0",
+    "react-native-material-dropdown": "^0.11.1",
+    "react-native-modal-dropdown": "^0.7.0",
+    "react-native-picker-select": "^8.0.4",
     "react-native-progress": "^4.1.2",
     "react-native-reanimated": "^1.13.2",
     "react-native-router-flux": "^4.2.0",
     "react-native-safe-area-context": "^3.1.9",
     "react-native-screens": "^2.15.2",
-    "react-native-web": "~0.13.12"
+    "react-native-web": "~0.13.12",
+    "teaset": "^0.7.5"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0"
